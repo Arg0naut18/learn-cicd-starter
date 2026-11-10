@@ -28,7 +28,7 @@ func TestGetAPIKey(t *testing.T) {
 		{
 			name:    "Valid short API key",
 			input:   http.Header{"Authorization": {"ApiKey xy"}},
-			wantKey: "x",
+			wantKey: "xy",
 		},
 		{
 			name:    "Bearer token instead of API key",
