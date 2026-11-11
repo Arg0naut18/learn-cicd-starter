@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-var wrongApiKeyErr = errors.New("malformed authorization header")
+var errWrongApiKey = errors.New("malformed authorization header")
 
 func TestGetAPIKey(t *testing.T) {
 	tests := []struct {
@@ -33,12 +33,12 @@ func TestGetAPIKey(t *testing.T) {
 		{
 			name:    "Bearer token instead of API key",
 			input:   http.Header{"Authorization": {"Bearer xyz1234"}},
-			wantErr: wrongApiKeyErr,
+			wantErr: errWrongApiKey,
 		},
 		{
 			name:    "Bearer ApiKey",
 			input:   http.Header{"Authorization": {"Bearer ApiKey"}},
-			wantErr: wrongApiKeyErr,
+			wantErr: errWrongApiKey,
 		},
 		{
 			name:  "Empty API key",
@@ -57,7 +57,7 @@ func TestGetAPIKey(t *testing.T) {
 		{
 			name:    "Invalid authorization format",
 			input:   http.Header{"Authorization": {"A"}},
-			wantErr: wrongApiKeyErr,
+			wantErr: errWrongApiKey,
 		},
 	}
 
