@@ -1,12 +1,12 @@
 package auth
 
 import (
-	"net/http" 
-	"testing"
 	"errors"
+	"net/http"
+	"testing"
 )
 
-var wrongApiKeyErr = errors.New("malformed authorization header")
+var errWrongApiKey = errors.New("malformed authorization header")
 
 func TestGetAPIKey(t *testing.T) {
 	tests := []struct {
@@ -33,12 +33,12 @@ func TestGetAPIKey(t *testing.T) {
 		{
 			name:    "Bearer token instead of API key",
 			input:   http.Header{"Authorization": {"Bearer xyz1234"}},
-			wantErr: wrongApiKeyErr,
+			wantErr: errWrongApiKey,
 		},
 		{
 			name:    "Bearer ApiKey",
 			input:   http.Header{"Authorization": {"Bearer ApiKey"}},
-			wantErr: wrongApiKeyErr,
+			wantErr: errWrongApiKey,
 		},
 		{
 			name:  "Empty API key",
@@ -57,7 +57,7 @@ func TestGetAPIKey(t *testing.T) {
 		{
 			name:    "Invalid authorization format",
 			input:   http.Header{"Authorization": {"A"}},
-			wantErr: wrongApiKeyErr,
+			wantErr: errWrongApiKey,
 		},
 	}
 
@@ -68,13 +68,13 @@ func TestGetAPIKey(t *testing.T) {
 			if gotKey != tc.wantKey {
 				t.Errorf("GetAPIKey() key = %q, want %q", gotKey, tc.wantKey)
 			}
-			
+
 			if gotErr != nil && tc.wantErr != nil {
-			    if gotErr.Error() != tc.wantErr.Error() {
-				t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
-			    }
+				if gotErr.Error() != tc.wantErr.Error() {
+					t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
+				}
 			} else if gotErr != tc.wantErr {
-			    t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
+				t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
 			}
 		})
 	}
