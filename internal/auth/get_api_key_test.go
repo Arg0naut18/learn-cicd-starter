@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"net/http" 
-	"testing"
 	"errors"
+	"net/http"
+	"testing"
 )
 
 var wrongApiKeyErr = errors.New("malformed authorization header")
@@ -68,13 +68,13 @@ func TestGetAPIKey(t *testing.T) {
 			if gotKey != tc.wantKey {
 				t.Errorf("GetAPIKey() key = %q, want %q", gotKey, tc.wantKey)
 			}
-			
+
 			if gotErr != nil && tc.wantErr != nil {
-			    if gotErr.Error() != tc.wantErr.Error() {
-				t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
-			    }
+				if gotErr.Error() != tc.wantErr.Error() {
+					t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
+				}
 			} else if gotErr != tc.wantErr {
-			    t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
+				t.Errorf("GetAPIKey() error = %v, want %v", gotErr, tc.wantErr)
 			}
 		})
 	}
